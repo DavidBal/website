@@ -36,13 +36,19 @@
                 </div>
             </div>
         </div>
+        
+        <div class="traitline_dropdown" id="trait_dropdown_{{this.traitline.id}}">
+            <!-- Holder -->
+        </div>
 
 </template>
 
 <template name="minor_trait_ui">
-    <div class="minor_trait backround_img trait trait_activ" id="{{trait.id}}" style="background-image:url({{trait.icon}})"></div>
+    <div class="minor_trait backround_img trait trait_activ" id="{{trait.id}}" style="background-image:url({{trait.icon}})">
+    </div>
 </template>
 
 <template name="major_trait_ui">
-    <div class="major_trait backround_img trait" id="{{trait.id}}" style="background-image:url({{trait.icon}})"></div>
+    <div class="major_trait backround_img trait" id="{{trait.id}}" style="background-image:url({{trait.icon}})">
+    </div>
 </template>

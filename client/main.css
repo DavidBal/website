@@ -267,10 +267,30 @@ img{
     opacity: 1;
 }
 
+.trait{
+}
+
 .trait:hover{
     opacity: 1;
 }
 
+.trait_dropdown .trait:hover{
+    visibility: visible;
+    opacity: 1;
+}
+
+.trait_dropdown{
+    position: fixed;
+    background: #646464;
+    min-width: 250px;
+    margin: 1px;
+    border-radius:4px;
+    padding: 6px 12px;
+    font-family: arial;
+    font-size: 12px;
+    text-shadow: 0px 1px 1px #000;
+    color: #ffc64a;
+}
 
 body {
     font-family: inherit;
