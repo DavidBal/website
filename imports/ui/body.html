@@ -1,0 +1,48 @@
+<body>
+    <!-- Klassen: DropdownMenues -->
+    <div class="container_left">
+        <!--Linke seite: Kopf-->
+        <div class="left_header"><img src="img/Last Phoenix.png" alt="[Nix] Last Phoenix"/></div>
+        <div class="left_header">≈Build List≈</div>
+        <!--Template Left-->
+        {{>main_ClassList}}
+        <hr/>
+    </div>
+    <div class="container_middle">
+        {{>container_middle}}
+    </div>
+</body>
+    
+<template name="main_ClassList">
+    <div class="main_ClassList">
+            {{#each profession in professions}}
+            <!-- Reicht die Professions Daten weiter -->
+                {{>profession_ui profession=profession}}
+            {{/each}}
+    </div>
+</template>
+
+<template name="profession_ui">
+    <div class="klassen_label" id="{{this.profession.klasse}}">
+        <div class="klasse_mini_img"><img src="{{this.profession.img_link}}" alt="{{this.profession.klasse}}_mini"></div>
+        <div class="klasse_name_label"><b>{{this.profession.de_name}}</b></div>
+        <div class="klasse_mini_img"></div>
+        <!-- todo pfeil -->
+    </div>
+    <div class="klassen_dropdown" id="{{this.profession.klasse}}_dropdown">
+        {{#each buildtyps}}
+            {{> buildtyp_ui}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="buildtyp_ui">
+    <div class="build_name_label" id="{{link}}"> <div style="float: left; margin-left: 10%;">{{name}} </div>  <div class="buildtyp_img_mini"><img src="buildtyp/{{type}}.png" alt="{{type}}"/></div></div>
+</template>
+
+<template name="container_middle">
+    {{>traitline_ui traitline=(traitline 1)}}
+    {{>traitline_ui traitline=(traitline 41)}}
+    {{>traitline_ui traitline=(traitline 18)}}
+    {{>traitline_ui traitline=(traitline 25)}}
+</template>

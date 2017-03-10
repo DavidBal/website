@@ -1,0 +1,48 @@
+<!-- Templats for Traitline -->
+    
+<template name="traitline_ui">
+    <!--id=traitline-ID-->
+
+        <div class="traitline" id="{{this.traitline.id}}"  >
+            <div class="inner_traitline">
+                <div class="traitline_background" style="background-image: url({{this.traitline.background}});"></div>
+                <div class="trait_icon trait_icon_after" style="background-image: url({{this.traitline.background}});">
+                    <div class="trait_icon_top test_after "></div>
+                    <div class="trait_icon_bottom test_after "></div>
+                </div>
+                
+                {{>minor_trait_ui trait=(minor_trait this.traitline 0)}}
+                
+                <div class="major_trait_holder">
+                    {{#each trait in major_trait traitline 0}}
+                        {{>major_trait_ui trait=trait}}
+                    {{/each}}
+                </div>
+                
+                {{>minor_trait_ui trait=(minor_trait this.traitline 1)}}
+                
+                <div class="major_trait_holder">
+                    {{#each trait in major_trait traitline 3}}
+                        {{>major_trait_ui trait=trait}}
+                    {{/each}}
+                </div>
+                
+                {{>minor_trait_ui trait=(minor_trait this.traitline 2)}}
+                
+                <div class="major_trait_holder">
+                    {{#each trait in major_trait traitline 6}}
+                        {{>major_trait_ui trait=trait}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+</template>
+
+<template name="minor_trait_ui">
+    <div class="minor_trait backround_img trait trait_activ" id="{{trait.id}}" style="background-image:url({{trait.icon}})"></div>
+</template>
+
+<template name="major_trait_ui">
+    <div class="major_trait backround_img trait" id="{{trait.id}}" style="background-image:url({{trait.icon}})"></div>
+</template>
