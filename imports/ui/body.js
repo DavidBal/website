@@ -64,41 +64,38 @@ if(Meteor.isClient){
         Events
     **/
     
+    function createTraitDropdown(event, trait){
+        var style = {
+            position: "fixed",
+            'z-index': 999,
+            top: "10px",
+            left: "10px",
+            transform: "translate3d(" + event.clientX + "px, " + event.clientY + "px, " + "0px)"
+        };
+        $("#trait_dropdown_" + trait.specialization).html("<div class='trait_dropdown'><h3>" + trait.name + "</h3><div class='trait_description'>" + trait.description + "</div></div>");
+        $("#trait_dropdown_" + trait.specialization).css(style);
+    }
     
+    function deleteTraitDropdown(trait){
+        $("#trait_dropdown_" + trait.specialization).html("<!--PlaceHolder-->");
+        $("#trait_dropdown_" + trait.specialization).removeAttr('style');
+    }
     
     Template.major_trait_ui.events({
         'mouseenter .trait'(event, instance) {
-             var style = {
-                position: "fixed",
-                'z-index': 999,
-                top: "10px",
-                left: "10px",
-                transform: "translate3d(" + event.clientX + "px, " + event.clientY + "px, " + "0px)"
-            };
-            $("#trait_dropdown_" + instance.trait.get().specialization).html("<div class='trait_dropdown'><h3>" + instance.trait.get().name + "</h3><div class='trait_description'>" + instance.trait.get().description + "</div></div>");
-            $("#trait_dropdown_" + instance.trait.get().specialization).css(style);
+             createTraitDropdown(event, instance.trait.get());
         },
         'mouseleave .trait'(event, instance) {
-            $("#trait_dropdown_" + instance.trait.get().specialization).html("<!--PlaceHolder-->");
-            $("#trait_dropdown_" + instance.trait.get().specialization).removeAttr('style');
+            deleteTraitDropdown(instance.trait.get());
         },
     });
     
     Template.minor_trait_ui.events({
         'mouseenter .trait'(event, instance) {
-            var style = {
-                position: "fixed",
-                'z-index': 999,
-                top: "10px",
-                left: "10px",
-                transform: "translate3d(" + event.clientX + "px, " + event.clientY + "px, " + "0px)"
-            };
-            $("#trait_dropdown_" + instance.data.trait.specialization).html("<div class='trait_dropdown'><h3>" + instance.data.trait.name + "</h3><div class='trait_description'>" + instance.data.trait.description + "</div></div>");
-            $("#trait_dropdown_" + instance.data.trait.specialization).css(style);
+            createTraitDropdown(event, instance.data.trait);
         },
         'mouseleave .trait'(event, instance) {
-            $("#trait_dropdown_" + instance.data.trait.specialization).html("<!--PlaceHolder-->");
-            $("#trait_dropdown_" + instance.data.trait.specialization).removeAttr('style');
+            deleteTraitDropdown(instance.data.trait);
         },
     });
     
