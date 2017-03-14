@@ -3,41 +3,41 @@
 <template name="traitline_ui">
     <!--id=traitline-ID-->
 
-        <div class="traitline" id="{{this.traitline.id}}"  >
+        <div class="traitline" id="{{this.id}}"  >
             <div class="inner_traitline">
-                <div class="traitline_background" style="background-image: url({{this.traitline.background}});"></div>
-                <div class="trait_icon trait_icon_after" style="background-image: url({{this.traitline.background}});">
+                <div class="traitline_background" style="background-image: url({{this.background}});"></div>
+                <div class="trait_icon trait_icon_after" style="background-image: url({{this.background}});">
                     <div class="trait_icon_top test_after "></div>
                     <div class="trait_icon_bottom test_after "></div>
                 </div>
                 
-                {{>minor_trait_ui trait=(minor_trait this.traitline 0)}}
+                {{>minor_trait_ui trait=(minor_trait this 0)}}
                 
                 <div class="major_trait_holder">
-                    {{#each trait in major_trait traitline 0}}
+                    {{#each trait in major_trait this 0}}
                         {{>major_trait_ui trait=trait}}
                     {{/each}}
                 </div>
                 
-                {{>minor_trait_ui trait=(minor_trait this.traitline 1)}}
+                {{>minor_trait_ui trait=(minor_trait this 1)}}
                 
                 <div class="major_trait_holder">
-                    {{#each trait in major_trait traitline 3}}
+                    {{#each trait in major_trait this 3}}
                         {{>major_trait_ui trait=trait}}
                     {{/each}}
                 </div>
                 
-                {{>minor_trait_ui trait=(minor_trait this.traitline 2)}}
+                {{>minor_trait_ui trait=(minor_trait this 2)}}
                 
                 <div class="major_trait_holder">
-                    {{#each trait in major_trait traitline 6}}
+                    {{#each trait in major_trait this 6}}
                         {{>major_trait_ui trait=trait}}
                     {{/each}}
                 </div>
             </div>
         </div>
         
-        <div class="traitline_dropdown" id="trait_dropdown_{{this.traitline.id}}">
+        <div class="traitline_dropdown" id="trait_dropdown_{{this.id}}">
             <!-- Holder -->
         </div>
 

@@ -1,4 +1,8 @@
 <body>
+    
+</body>
+
+<template name="ui">
     <!-- Klassen: DropdownMenues -->
     <div class="container_left">
         <!--Linke seite: Kopf-->
@@ -10,8 +14,8 @@
     </div>
     <div class="container_middle">
         {{>container_middle}}
-    </div>
-</body>
+    </div>    
+</template>
     
 <template name="main_ClassList">
     <div class="main_ClassList">
@@ -41,9 +45,7 @@
 </template>
 
 <template name="container_middle">
-    {{>traitline_ui traitline=(traitline 1)}}
-    {{>traitline_ui traitline=(traitline 41)}}
-    {{>traitline_ui traitline=(traitline 18)}}
-    {{>traitline_ui traitline=(traitline 25)}}
-    {{>traitline_ui traitline=(traitline 39)}}
+    <div id="traitlineZone"><!--Traitline Zone--></div>
 </template>
+
+<template name="loading">Loading...</template>
