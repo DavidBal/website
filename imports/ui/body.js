@@ -11,41 +11,9 @@ import './body.html';
 import './traitline.html';
 import './skills.html';
 
-var failcounter = 0;
-
-
+import './routing.js';
 
 if(Meteor.isClient){
-    
-    Router.route('/', {
-        loadingTemplate: 'loading',
-        
-        waitOn: function(){
-            return Meteor.subscribe("buildcollection") && Meteor.subscribe("traitlinelist") && Meteor.subscribe("buildlist") && Meteor.subscribe("skillslist");
-        },
-        
-        action: function(){
-            this.render('ui');
-        }
-    });
-    
-    Router.route('/:_link', {
-        loadingTemplate: 'loading',
-        
-        waitOn: function(){
-            return Meteor.subscribe("buildcollection") && Meteor.subscribe("traitlinelist") && Meteor.subscribe("buildlist") && Meteor.subscribe("skillslist");
-        },
-        
-        action: function(){
-            var link = this.params._link;
-            console.log(link);
-            this.render('ui');
-            Template.container_middle.onRendered(function (){changeBuild(link)});
-            
-        }
-    });
-    
-    
     
     var buildtyp = "Das sollte ich überall lesen";
     var Build = null;
@@ -127,15 +95,12 @@ if(Meteor.isClient){
         Events
     **/
     
-    
-    
-    
     Template.minor_trait_ui.events({
         'mouseenter .trait'(event, instance) {
             createTraitDropdown(event, instance.data.trait);
         },
         'mouseleave .trait'(event, instance) {
-            deleteTraitDropdown(instance.data.trait);
+            deleteDropdown();
         },
     });
     
@@ -149,7 +114,7 @@ if(Meteor.isClient){
     });
     
     /*Mouseenter event that will show the informantions at the enter position (cursorposition) */
-    function createTraitDropdown(event, trait){
+    createTraitDropdown = function (event, trait){
         var style = {
             position: "fixed",
             'z-index': 999,
@@ -163,7 +128,7 @@ if(Meteor.isClient){
     }
 
     /*Mouseleave event will delete the Dropdown if the mouse leave the zone again*/
-    function deleteDropdown(){
+    deleteDropdown = function (){
         $("#dropdown").html("<!--PlaceHolder-->");
         $("#dropdown").removeAttr('style');
     }
@@ -198,7 +163,7 @@ if(Meteor.isClient){
         }
     });
     
-    function changeBuild(link){
+  changeBuild = function (link){
         try{
             //guarding
             if(link != (Build && Build.link)){
