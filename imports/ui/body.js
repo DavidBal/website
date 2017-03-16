@@ -5,10 +5,11 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { BuildList } from '../api/database.js';
 import { TraitlineList } from '../api/database.js';
 import { BuildCollection } from '../api/database.js';
-
+import { SkillsList } from '../api/database.js';
 
 import './body.html';
 import './traitline.html';
+import './skills.html';
 
 var failcounter = 0;
 
@@ -88,7 +89,7 @@ if(Meteor.isClient){
         }
     });
     
-    function traitline(id){
+    function searchTraitline(id){
         var traitline = TraitlineList.findOne({id: id});
         return traitline;
     };
@@ -112,6 +113,16 @@ if(Meteor.isClient){
         },
     });
     
+    Template.skillbar_ui.helpers({
+        skill(skillArray){
+            
+            skill = SkillsList.findOne({id: skillArray[0]});
+            
+            this.skill = new ReactiveVar(skill);
+            return skill;
+        }
+    });
+    
     /**
         Events
     **/
@@ -133,7 +144,7 @@ if(Meteor.isClient){
             createTraitDropdown(event, instance.trait.get());
         },
         'mouseleave .trait'(event, instance) {
-            deleteTraitDropdown(instance.trait.get());
+            deleteDropdown();
         },
     });
     
@@ -147,15 +158,35 @@ if(Meteor.isClient){
             transform: "translate3d(" + event.clientX + "px, " + event.clientY + "px, " + "0px)"
         };
         
-        $("#trait_dropdown_" + trait.specialization).html("<div class='trait_dropdown'><h3>" + trait.name + "</h3><div class='trait_description'>" + trait.description + "</div></div>");
-        $("#trait_dropdown_" + trait.specialization).css(style);
+        $("#dropdown").html("<div class='trait_dropdown'><h3>" + trait.name + "</h3><div class='trait_description'>" + trait.description + "</div></div>");
+        $("#dropdown").css(style);
     }
 
     /*Mouseleave event will delete the Dropdown if the mouse leave the zone again*/
-    function deleteTraitDropdown(trait){
-        $("#trait_dropdown_" + trait.specialization).html("<!--PlaceHolder-->");
-        $("#trait_dropdown_" + trait.specialization).removeAttr('style');
+    function deleteDropdown(){
+        $("#dropdown").html("<!--PlaceHolder-->");
+        $("#dropdown").removeAttr('style');
     }
+    
+    Template.skill_ui.events({
+        'mouseenter .skill'(event, instance) {
+            console.log(instance);
+            
+            var style = {
+                position: "fixed",
+                'z-index': 999,
+                top: "10px",
+                left: "10px",
+                transform: "translate3d(" + event.clientX + "px, " + event.clientY + "px, " + "0px)"
+            };
+        
+            $("#dropdown").html("<div class='skill_dropdown'><h3>" + instance.data.name + "</h3><div class='trait_description'>" + instance.data.description + "</div></div>");
+            $("#dropdown").css(style);
+        },
+        'mouseleave .skill'(event, instance) {
+            deleteDropdown();
+        }
+    });
     
     Template.buildtyp_ui.events({
         /*
@@ -187,12 +218,16 @@ if(Meteor.isClient){
                 }
                 //Reset the Zones to be clear and ready for the new render
                 $('#traitlineZone').html("<!--Traitline Zone-->");
+                $('#skillZone').html("<!--Skill Zone-->");
                 
                 history.replaceState(null, null, link);
                 
                 for(var i = 1; i < 4 ; i++){
                     createOneTraitline(Build.specializations["traitline_"+i][0]);
                 }
+                
+                createSkillbar(Build.skills);
+                
             } else {
                 console.log("Load geblockt!")
             }
@@ -204,11 +239,15 @@ if(Meteor.isClient){
     
     /* Call the function the render one Traitline ,and will set the specifc traits activ (opacity = 1)*/
     function createOneTraitline(specialization){
-        Blaze.renderWithData( Template.traitline_ui, traitline(specialization.line_id), $( '#traitlineZone' ).get(0));
+        Blaze.renderWithData( Template.traitline_ui, searchTraitline(specialization.line_id), $( '#traitlineZone' ).get(0));
         //TODO: Move to onRendered function to secure that the DOM is there
         for(var t = 1; t < 4; t++) {
             $("#"+specialization["trait_" + t]).css("opacity", 1);
         }
+    }
+    
+    function createSkillbar(skills){
+        Blaze.renderWithData(Template.skillbar_ui, skills, $( '#skillZone' ).get(0))
     }
     
     Template.main_ClassList.events({

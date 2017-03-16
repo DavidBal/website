@@ -3,20 +3,21 @@
 <template name="skillbar_ui">
     <div class="skillbar">
         <!--Heal-Skll-->
-            
+            {{>skill_ui skill heal_skill}}
         <!--Skill_1-->
-        
+            {{>skill_ui skill skill_1}}
         <!--Skill_2-->
-            
+            {{>skill_ui skill skill_2}}
         <!--Skill_3-->
-        
+            {{>skill_ui skill skill_3}}
         <!--ELit-Skill-->
+            {{>skill_ui skill elite_skill}}
     </div>
-    <div class="skillbar_dropdown">
+    <div class="skillbar_dropdwon" id="skillbar_dropdown">
         <!--Will Display the Skill Infos-->
     </div>
 </template>
 
 <template name="skill_ui">
-    <div class="skill" id="{{id}}" style="background-image:url({{icon}})"></div>
+    <div class="skill backround_img" id="{{id}}" style="background-image:url({{icon}})"></div>
 </template>
