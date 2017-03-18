@@ -1,5 +1,5 @@
 <body>
-    
+
 </body>
 
 <template name="ui">
@@ -9,25 +9,25 @@
         <div class="left_header"><img src="img/Last Phoenix.png" alt="[Nix] Last Phoenix"/></div>
         <div class="left_header">≈Build List≈</div>
         <!--Template Left-->
-        {{>main_ClassList}}
+        {{>mainClassList}}
         <hr/>
     </div>
     <div class="container_middle">
-        {{>container_middle}}
+        {{>containerMiddle}}
         <div id="dropdown"><!--DropdownZone--></div>
-    </div>    
+    </div>
 </template>
-    
-<template name="main_ClassList">
+
+<template name="mainClassList">
     <div class="main_ClassList">
             {{#each profession in professions}}
             <!-- Reicht die Professions Daten weiter -->
-                {{>profession_ui profession=profession}}
+                {{>professionUi profession=profession}}
             {{/each}}
     </div>
 </template>
 
-<template name="profession_ui">
+<template name="professionUi">
     <div class="klassen_label" id="{{this.profession.klasse}}">
         <div class="klasse_mini_img"><img src="{{this.profession.img_link}}" alt="{{this.profession.klasse}}_mini"></div>
         <div class="klasse_name_label"><b>{{this.profession.de_name}}</b></div>
@@ -36,16 +36,16 @@
     </div>
     <div class="klassen_dropdown" id="{{this.profession.klasse}}_dropdown">
         {{#each buildtyps}}
-            {{> buildtyp_ui}}
+            {{> buildtypUi}}
         {{/each}}
     </div>
 </template>
 
-<template name="buildtyp_ui">
+<template name="buildtypUi">
     <div class="build_name_label" id="{{link}}"> <div style="float: left; margin-left: 10%;">{{name}} </div>  <div class="buildtyp_img_mini"><img src="buildtyp/{{type}}.png" alt="{{type}}"/></div></div>
 </template>
 
-<template name="container_middle">
+<template name="containerMiddle">
     <div id="traitlineZone"><!--Traitline Zone--></div>
     <div id="skillZone"><!--Skill Zone--></div>
 </template>
