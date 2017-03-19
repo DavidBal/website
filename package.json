@@ -38,6 +38,8 @@
     "settings": {
       "import/resolver": "meteor"
     },
-    "rules": {}
+    "rules": {
+      "no-underscore-dangle": ["off", { "allowAfterThis": true}]
+    }
   }
 }

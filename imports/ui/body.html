@@ -29,7 +29,7 @@
 
 <template name="professionUi">
     <div class="klassen_label" id="{{this.profession.klasse}}">
-        <div class="klasse_mini_img"><img src="{{this.profession.img_link}}" alt="{{this.profession.klasse}}_mini"></div>
+        <div class="klasse_mini_img backround_img" style="background-image: url('{{this.profession.img_link}}')"></div>
         <div class="klasse_name_label"><b>{{this.profession.de_name}}</b></div>
         <div class="klasse_mini_img"></div>
         <!-- todo pfeil -->
@@ -42,12 +42,13 @@
 </template>
 
 <template name="buildtypUi">
-    <div class="build_name_label" id="{{link}}"> <div style="float: left; margin-left: 10%;">{{name}} </div>  <div class="buildtyp_img_mini"><img src="buildtyp/{{type}}.png" alt="{{type}}"/></div></div>
+    <div class="build_name_label" id="{{link}}"> <div style="float: left; margin-left: 10%;">{{name}} </div>  <div class="buildtyp_img_mini backround_img" style="background-image: url('buildtyp/{{type}}.png')"></div></div>
 </template>
 
 <template name="containerMiddle">
     <div id="traitlineZone"><!--Traitline Zone--></div>
     <div id="skillZone"><!--Skill Zone--></div>
+    <div id="weaponZone"><!--Weapon Zone--></div>
 </template>
 
 <template name="loading">Loading...</template>

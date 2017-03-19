@@ -133,8 +133,7 @@ if (Meteor.isClient) {
   Template.minorTraitUi.events({
     'mouseenter .trait': function onEnter(event, templateInstance) {
       if (typeof this.dropdown === 'undefined') {
-        const dropdown = new Dropdown(event, templateInstance.data.trait);
-        this.dropdown = new ReactiveVar(dropdown);
+        this.dropdown = new ReactiveVar(new Dropdown(event, templateInstance.data.trait));
       }
       this.dropdown.get().render();
     },
@@ -149,8 +148,7 @@ if (Meteor.isClient) {
   Template.majorTraitUi.events({
     'mouseenter .trait': function onEnter(event, templateInstance) {
       if (typeof this.dropdown === 'undefined') {
-        const dropdown = new Dropdown(event, templateInstance.trait.get());
-        this.dropdown = new ReactiveVar(dropdown);
+        this.dropdown = new ReactiveVar(new Dropdown(event, templateInstance.trait.get()));
       }
       this.dropdown.get().render();
     },
@@ -165,8 +163,7 @@ if (Meteor.isClient) {
   Template.skillUi.events({
     'mouseenter .skill_icon': function onEnter(event, templateInstance) {
       if (typeof this.dropdown === 'undefined') {
-        const dropdown = new Dropdown(event, templateInstance.data);
-        this.dropdown = new ReactiveVar(dropdown);
+        this.dropdown = new ReactiveVar(new Dropdown(event, templateInstance.data));
       }
       this.dropdown.get().render();
     },
