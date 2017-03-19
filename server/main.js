@@ -35,9 +35,16 @@ function Traitline(id, name, klasse, icon, background) {
 }
 
 Meteor.methods({
+  /*
+    Why i dont direct use the API on the client ,because the request are slower and
+    the gw2Api sometimes has realy long down times so it is better to buffer the
+    everything static (like Skill/Traits) in a own database to take pressure from
+    the Gw2Api and so the gw2Api direct requests can be focused on Variable thinks
+    like "Auktions Haus" and Charakter things like in witch in Invetory is that item
+  */
   updateGW2API() {
+    // TODO Complete Rebuild for better acessing the endpoints and build up to databases (de/en)
     /* Function to Update the Database that represent the Gw2 API for esay acess*/
-    // TODO to owen functions
     const time = new Date();
     console.log(`Started Update Gw2 API: ${time}`);
     try {
@@ -58,7 +65,7 @@ Meteor.methods({
           // console.log(singleProfession);
           console.log(`-><---------Traits ${singleProfession.name} (${(i + 1)}/${professions.length})---------><-`);
 
-          /*TraitLines Requests*/
+          /* TraitLines Requests*/
           for (let r = 0; r < singleProfession.specializations.length; r += 1) {
             try {
               const singleTraitLine = HTTP.call('GET', Gw2API + 'specializations/' + singleProfession.specializations[r], { params: { lang: 'de' } }).data;

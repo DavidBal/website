@@ -41,6 +41,11 @@ if (Meteor.isClient) {
 
   export default 0;
 
+  /*
+    Change the activ Build
+    link - the database link (id)
+    export because this function is also used by the Routing for start rendering
+  */
   export const changeBuild = function changeBuild(link) {
     try {
       // guarding
@@ -49,31 +54,36 @@ if (Meteor.isClient) {
         const prevBuild = Build;
 
         // console.log(event.currentTarget.id);
+        // Search the new build with the given link
         Build = BuildCollection.findOne({ link });
 
         // console.log(build);
         // DONE: check if build is valid or undefind
         if (typeof Build === 'undefined') {
           // Set the Build back to the prevBuild because there will be no change for the User!!
-          // TODO: Add Msg for the User (alert maybe??)
+          // TODO: Add Msg for the User -> load a diffrent Template
           Build = prevBuild;
           throw new Error(`De: ${link} :Das Build konnte in der Datenbank nicht gefunden werden!! / En: + The Build was not found in the database!!`);
         }
         // Reset the Zones to be clear and ready for the new render
         $('#traitlineZone').html('<!--Traitline Zone-->');
         $('#skillZone').html('<!--Skill Zone-->');
+
+        // Change the Browser for Link for fast Sharing of the Build
         history.replaceState(null, null, link);
 
         for (let i = 1; i < 4; i += 1) {
           createOneTraitline(Build.specializations[`traitline_${i}`][0]);
         }
+
         createSkillbar(Build.skills);
       } else {
-        console.log('Load geblockt!');
+        // No action the build is already up
+        // console.log('Load geblockt!');
       }
     } catch (e) {
-      console.log(e);
-      alert(e.message);
+      // console.log(e);
+      // TODO Render <div> with debug infos
     }
   };
 
@@ -176,6 +186,7 @@ if (Meteor.isClient) {
     'click .skill_change': function onCLick(event) {
       console.log('Click');
       console.log(event);
+      // TODO Pop up menue with alternativ skills
     },
   });
 

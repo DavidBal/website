@@ -13,7 +13,7 @@ export class Dropdown {
   object;
   style;
 
-  // TODO Rework this style thing
+  // DONE Rework this style thing
   constructor(position, object) {
     this.style = {
       transform: `translate3d( ${position.clientX}px, ${position.clientY}px, 0px)`,
@@ -22,7 +22,7 @@ export class Dropdown {
   }
 
   renderDefault() {
-    const html = `<div class='dropdown_header'> ${this.object.name} </div><div class='description'> ${this.object.description} </div>`;
+    const html = `<div class='dropdown_header'> ${this.object.name} </div><div class='description'> ${this.object.description} <br/> DEFAULT RENDER </div>`;
     return html;
   }
 
@@ -46,6 +46,11 @@ export class Dropdown {
     return html;
   }
 
+  /*
+    This function create out of a FactObject a Fact String for dipslaying to the User
+    factObject -
+    return String with Facts
+  */
   static interpretFact(factObject) {
     let factInfo = '';
 
@@ -126,9 +131,11 @@ export class Dropdown {
   }
 
   renderSkill() {
+    // Split description to extract the Skill Typ
     const descriptionArray = this.object.description.split('.');
     const skillTyp = descriptionArray[0];
     let descriptionText = '';
+    // Set the rest back together
     for (let t = 1; t < descriptionArray.length; t += 1) {
       descriptionText += `.${descriptionArray[t]}`;
     }
@@ -138,6 +145,7 @@ export class Dropdown {
     let facts = '<div class="facts">';
     for (let f = 0; f < this.object.facts.length; f += 1) {
       if (this.object.facts[f].type === 'Recharge') {
+        // Add Recharge if the this Skill has one
         header += `<div class="recharge"><div class="recharge_img backround_img" style="background-image: url('${this.object.facts[f].icon}')"></div><div class="">${this.object.facts[f].value}</div></div>`;
       } else {
         const factInfo = Dropdown.interpretFact(this.object.facts[f]);
@@ -147,8 +155,8 @@ export class Dropdown {
     }
     facts += '</div>';
     header += '</div>';
-    const html = `${header}${description}${facts}`;
-    return html;
+
+    return `${header}${description}${facts}`;
   }
 
   render() {
@@ -156,11 +164,13 @@ export class Dropdown {
 
     console.log(this.object);
 
+    // Find out wich render function need to been called
     if (this.object.slot === 'Major' || this.object.slot === 'Minor') {
       html = this.renderTrait();
     } else if (this.object.type === 'Heal' || this.object.type === 'Utility' || this.object.type === 'Elite') {
       html = this.renderSkill();
     } else {
+      // Should not be called
       html = this.renderDefault();
     }
     $('#dropdown').html(`<div class="dropdown">${html}</div>`);
