@@ -97,7 +97,11 @@ export class Dropdown {
         factInfo = `${factObject.text} ${factObject.percent}%`;
         break;
       case 'PrefixedBuff':
-        factInfo = `${factObject.text}`;
+        factInfo = `${factObject.status}  (${factObject.duration}s)`;
+        if (factObject.apply_count !== 1) {
+          factInfo = `${factObject.apply_count} ${factInfo}`;
+        }
+        factInfo = `<div class="fact_img backround_img" style="background-image: url('${factObject.prefix.icon}')"></div>${factInfo}`;
         break;
       case 'Radius':
         factInfo = `${factObject.text}: ${factObject.distance}`;

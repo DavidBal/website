@@ -38,7 +38,9 @@
       "import/resolver": "meteor"
     },
     "rules": {
-      "no-underscore-dangle": ["off", { "allowAfterThis": true}]
+      "no-underscore-dangle": ["off", { "allowAfterThis": true}],
+      "import/no-extraneous-dependencies": ["off", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}],
+      "import/extensions": ["off", {}]
     }
   }
 }
