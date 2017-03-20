@@ -21,7 +21,7 @@
     </div>
     <div class="container_middle">
         {{>containerMiddle}}
-        <div id="dropdown"><!--DropdownZone--></div>
+        <div id="dropdown" class="pull-right"><!--DropdownZone--></div>
     </div>
 </template>
 
@@ -54,9 +54,13 @@
 </template>
 
 <template name="containerMiddle">
-    <div id="traitlineZone"><!--Traitline Zone--></div>
-    <div id="skillZone"><!--Skill Zone--></div>
     <div id="weaponZone"><!--Weapon Zone--></div>
+    <div id="traitlineZone"><!--Traitline Zone--></div>
+    <div id="numberZone"><!--Display Numbers--></div>
+    <div class="weaponAndskill_Bar">
+      <div id="weaponSkillZone"><!--Weapon Skill Zone--></div>
+      <div id="skillZone"><!--Skill Zone--></div>
+    </div>
 </template>
 
 <template name="loading">Loading...</template>
