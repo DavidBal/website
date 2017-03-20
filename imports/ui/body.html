@@ -11,6 +11,13 @@
         <!--Template Left-->
         {{>mainClassList}}
         <hr/>
+        <h4>Site Info</h4>
+        <div class="linksammlung">
+          <a href="https://github.com/DavidBal/website">Github Link</a><br/>
+          <a href="">Build-Editor Link</a><br/>
+        </div>
+        <!--TODO Der Login button soll kann von Admins genutzt werde um Updates an Builds oder änlichen vornehmen zu können-->
+        <button>Login</button>
     </div>
     <div class="container_middle">
         {{>containerMiddle}}
@@ -25,6 +32,7 @@
                 {{>professionUi profession=profession}}
             {{/each}}
     </div>
+
 </template>
 
 <template name="professionUi">

@@ -1,6 +1,6 @@
 .container_left{
-    float: left;
-    position: auto;
+    position: fixed;
+    display: block;
     height: 100%;
     min-width: 10%;
     background-color: #7D7C7C;
@@ -33,7 +33,6 @@
     border-style: solid;
     border-width: 3px;
     cursor: pointer;
-
 }
 
 .klassen_label:hover{
@@ -100,9 +99,11 @@
 
 .container_middle{
     float: left;
+    display: flex;
     position: auto;
     background-color: gray;
     padding: 10px;
+    margin-left: 14%;
 }
 
 .backround_img{
@@ -116,6 +117,7 @@
 
 .traitline{
     opacity: 1;
+    border: 2px solid rgba(0,0,0,0.3);
 }
 .traitline_background{
     position: absolute;
@@ -141,7 +143,7 @@
     position: relative;
     overflow: auto;
     background-color: black;
-    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    box-shadow: 0 1px 3px rgba(0,0,0,.9);
 }
 
 .trait_icon{
@@ -231,6 +233,7 @@
     background-color: #000;
     background-size: cover;
     flex-shrink: 0;
+    cursor: pointer;
 }
 
 .major_trait{
@@ -258,6 +261,10 @@
 .trait:hover{
     opacity: 1.0;
 }
+
+/*
+  dropdown
+*/
 
 .dropdown{
     position: fixed;
@@ -338,7 +345,6 @@
     -ms-flex-align: center;
     min-width: 100px;
     min-height: 80px;
-
 }
 
 .skill_icon{
@@ -368,24 +374,14 @@
     background-color: rgba(21,23,24,.7);
     height: 11px;
     border: 2px solid rgba(21,23,24,.7);
-
 }
-
-/*.skill_change::after{
-    content: "";
-    position: absolute;
-
-    background-color: red;
-    width: 80px;
-    height: 8px
-}*/
 
 body {
     font-family: inherit;
     background-color: white;
     background-image: linear-gradient(to bottom, white, #ADABAB 100%);
     background-attachment: fixed;
-
+    display: flex;
     position: absolute;
     top: 0;
     bottom: 0;

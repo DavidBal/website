@@ -55,18 +55,21 @@ export class Dropdown {
     let factInfo = '';
 
     switch (factObject.type) {
-      case 'Buff':
-        factInfo = `${factObject.status}  (${factObject.duration}s)`;
-        if (factObject.apply_count !== 1) {
-          factInfo = `${factObject.apply_count} ${factInfo}`;
-        }
-        break;
       case 'AttributeAdjust':
         if (factObject.target === 'Healing') {
           factInfo = `${factObject.text}: ${factObject.value}`;
         } else {
           factInfo = `${factObject.target}: ${factObject.value}`;
         }
+        break;
+      case 'Buff':
+        factInfo = `${factObject.status}  (${factObject.duration}s)`;
+        if (factObject.apply_count !== 1 && factObject.apply_count !== 0) {
+          factInfo = `${factObject.apply_count} ${factInfo}`;
+        }
+        break;
+      case 'BuffConversion':
+        factInfo = `Gain ${factObject.target} based on ${factObject.source}: ${factObject.percent}%`;
         break;
       case 'ComboField':
         factInfo = `${factObject.field_type}`;
@@ -78,6 +81,7 @@ export class Dropdown {
         }
         break;
       case 'Damage':
+        // TODO deeper Work needed
         factInfo = `${factObject.hit_count} Ziele`;
         break;
       case 'Distance':

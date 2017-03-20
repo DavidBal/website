@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { HTTP } from 'meteor/http';
 
 import { BuildList, TraitlineList, BuildCollection, SkillsList } from '../imports/api/database.js';
-
-import { HTTP } from 'meteor/http';
 
 const Gw2API = 'https://api.guildwars2.com/v2/';
 
@@ -44,6 +43,7 @@ Meteor.methods({
   */
   updateGW2API() {
     // TODO Complete Rebuild for better acessing the endpoints and build up to databases (de/en)
+    // TODO Add weapon DB for each class
     /* Function to Update the Database that represent the Gw2 API for esay acess*/
     const time = new Date();
     console.log(`Started Update Gw2 API: ${time}`);
@@ -126,6 +126,6 @@ Meteor.methods({
     }
     const v = new Date() - time;
     console.log(v);
-    console.log('Finished Gw2 API Update needed Time: ' + (v/60) + ' min ' + (v%60) + ' sec');
+    console.log('Finished Gw2 API Update needed Time: ' + (v / 60) + ' min ' + (v % 60) + ' sec');
   },
 });
