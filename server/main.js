@@ -9,10 +9,10 @@ Meteor.startup(() => {
 
 });
 
-Meteor.publish('buildlist', function () { return BuildList.find({}); });
-Meteor.publish('traitlinelist', function() {return TraitlineList.find({})});
-Meteor.publish('buildcollection', function() {return BuildCollection.find({})});
-Meteor.publish('skillslist', function () { return SkillsList.find({}); });
+Meteor.publish('buildlist', () => BuildList.find({}));
+Meteor.publish('traitlinelist', () => TraitlineList.find({}));
+Meteor.publish('buildcollection', () => BuildCollection.find({}));
+Meteor.publish('skillslist', () => SkillsList.find({}));
 
 function Traitline(id, name, klasse, icon, background) {
   this.id = id;
@@ -40,10 +40,14 @@ Meteor.methods({
     everything static (like Skill/Traits) in a own database to take pressure from
     the Gw2Api and so the gw2Api direct requests can be focused on Variable thinks
     like "Auktions Haus" and Charakter things like in witch in Invetory is that item
+
+    Max 600/min requests at moment
   */
   updateGW2API() {
     // TODO Complete Rebuild for better acessing the endpoints and build up to databases (de/en)
     // TODO Add weapon DB for each class
+    // TODO Change the way the api is requested use ?params istead of /_ip
+    // because so requests can be bundeld in to one
     /* Function to Update the Database that represent the Gw2 API for esay acess*/
     const time = new Date();
     console.log(`Started Update Gw2 API: ${time}`);

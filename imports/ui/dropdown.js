@@ -12,6 +12,7 @@ Mouseleave event will delete the Dropdown if the mouse leave the zone again*/
 export class Dropdown {
   object;
   style;
+  positionX;
 
   // DONE Rework this style thing
   constructor(position, object) {
@@ -19,6 +20,7 @@ export class Dropdown {
       transform: `translate3d( ${position.clientX}px, ${position.clientY}px, 0px)`,
     };
     this.object = object;
+    this.positionX = position.clientX;
   }
 
   renderDefault() {
@@ -166,8 +168,9 @@ export class Dropdown {
   render() {
     let html;
 
-    console.log(this.object);
-
+    // console.log(this.object);
+    // console.log(this.positionX + 200);
+    // console.log($(window).width());
     // Find out wich render function need to been called
     if (this.object.slot === 'Major' || this.object.slot === 'Minor') {
       html = this.renderTrait();
@@ -177,6 +180,11 @@ export class Dropdown {
       // Should not be called
       html = this.renderDefault();
     }
+    if ((this.positionX + 290) > $(window).width()) {
+      $('#dropdown').css('left', -280);
+    } else {
+      $('#dropdown').css('left', 10);
+    }
     $('#dropdown').html(`<div class="dropdown">${html}</div>`);
     $('#dropdown').css(this.style);
   }
@@ -185,6 +193,11 @@ export class Dropdown {
     this.style = {
       transform: `translate3d( ${position.clientX}px, ${position.clientY}px, 0px)`,
     };
+    if ((position.clientX + 290) > $(window).width()) {
+      $('#dropdown').css('left', -280);
+    } else {
+      $('#dropdown').css('left', 10);
+    }
     $('#dropdown').css(this.style);
   }
 
