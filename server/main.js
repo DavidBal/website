@@ -28,9 +28,25 @@ function Traitline(id, name, klasse, icon, background) {
     this.minor_traits.push(trait);
   };
 
+  this.addMinorTraitArray = function addMinorTraitArray(traitArray) {
+    this.minor_traits = traitArray;
+  };
+
   this.addMajorTrait = function addMajorTrait(trait) {
     this.major_traits.push(trait);
   };
+
+  this.addMajorTraitArray = function addMajorTraitArray(traitArray) {
+    this.major_traits = traitArray;
+  };
+}
+
+function createRequestString(array) {
+  let requestString = array[0];
+  for (let i = 1; i < array.length; i += 1) {
+    requestString += `,${array[i]}`;
+  }
+  return requestString;
 }
 
 Meteor.methods({
@@ -43,6 +59,58 @@ Meteor.methods({
 
     Max 600/min requests at moment
   */
+  updateGW2APIv2() {
+    const time = new Date();
+    console.log(`Started Update Gw2Api: ${time}`)
+    console.log(`Api-URL: ${Gw2API}`);
+
+    try {
+      TraitlineList.remove({});
+      const professionsNames = HTTP.call('GET', `${Gw2API}professions`).data;
+      let requestString = createRequestString(professionsNames);
+
+      const professions = HTTP.call('GET', `${Gw2API}professions`, { params: { ids: requestString, lang: 'de' } }).data;
+
+      // every class get his request for Traits and Skills
+      for (let p = 0; p < professionsNames.length; p += 1) {
+        // Trait
+        console.log(`Class: ${professionsNames[p]} (${p + 1}|${professionsNames.length}); lang: de`);
+        requestString = createRequestString(professions[p].specializations);
+
+        const traitlineArray = HTTP.call('GET', `${Gw2API}specializations`, { params: { ids: requestString, lang: 'de' } }).data;
+        console.log(traitlineArray.length);
+        for (let t = 0; t < traitlineArray.length; t += 1) {
+          const traitline = new Traitline(traitlineArray[t].id, traitlineArray[t].name,
+            traitlineArray[t].profession, traitlineArray[t].icon, traitlineArray[t].background);
+          // Request Minor Traits
+          requestString = createRequestString(traitlineArray[t].minor_traits);
+          const minorTraitArray = HTTP.call('GET', `${Gw2API}traits`, { params: { ids: requestString, lang: 'de' } }).data;
+          traitline.addMinorTraitArray(minorTraitArray);
+
+          // Request Major Traits
+          requestString = createRequestString(traitlineArray[t].major_traits);
+          const majorTraitArray = HTTP.call('GET', `${Gw2API}traits`, { params: { ids: requestString, lang: 'de' } }).data;
+          traitline.addMajorTraitArray(majorTraitArray);
+
+          // Insert Traitline in to Database
+          TraitlineList.insert(traitline);
+        } // Traits done
+        // Skills
+        requestString = professions[p].skills[0].id;
+        for (let i = 1; i < professions[p].skills.length; i += 1) {
+          requestString += `,${professions[p].skills[i].id}`;
+        }
+
+        const skillArray = HTTP.call('GET', `${Gw2API}skills`, { params: { ids: requestString, lang: 'de' } });
+        for (let s = 0; s < skillArray.length; s += 1) {
+          SkillsList.insert(skillArray[s]);
+        }
+      }
+      console.log('Done');
+    } catch (e) {
+      console.log(e);
+    }
+  },
   updateGW2API() {
     // TODO Complete Rebuild for better acessing the endpoints and build up to databases (de/en)
     // TODO Add weapon DB for each class

@@ -103,7 +103,6 @@
     position: auto;
     background-color: gray;
     padding: 10px;
-    margin-left: 20%;
 }
 
 .backround_img{
@@ -283,7 +282,7 @@
   position: fixed;
   z-index: 999;
   top: 10px;
-  left: 10px;
+  transition: left 1s;
 }
 
 .skillTyp{
