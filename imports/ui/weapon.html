@@ -1,0 +1,23 @@
+<!--Templates for Creating the weaponSkillbar-->
+
+<template name="weaponSkillbarUi">
+    <div class="skillbar">
+        <!--Auto attack-->
+        {{>weaponSkillUi weaponSkill 0}}
+
+        {{>weaponSkillUi weaponSkill 1}}
+        {{>weaponSkillUi weaponSkill 2}}
+        {{>weaponSkillUi weaponSkill 3}}
+        {{>weaponSkillUi weaponSkill 4}}
+
+    </div>
+    <div class="skillbar_dropdwon" id="skillbar_dropdown">
+        <!--Will Display the Skill Infos-->
+    </div>
+</template>
+
+<template name="weaponSkillUi">
+    <div class="left">
+        <div class="skill_icon" id="{{id}}" style="background-image:url({{icon}})"></div>
+    </div>
+</template>

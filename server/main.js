@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 
-import { BuildList, TraitlineList, BuildCollection, SkillsList } from '../imports/api/database.js';
+import { BuildList, TraitlineList, BuildCollection, SkillsList, ClassWeaponCollection } from '../imports/api/database.js';
 
 const Gw2API = 'https://api.guildwars2.com/v2/';
 
@@ -13,6 +13,9 @@ Meteor.publish('buildlist', () => BuildList.find({}));
 Meteor.publish('traitlinelist', () => TraitlineList.find({}));
 Meteor.publish('buildcollection', () => BuildCollection.find({}));
 Meteor.publish('skillslist', () => SkillsList.find({}));
+Meteor.publish('classweaponcollection', () => ClassWeaponCollection.find({}));
+
+const WeaponNameArray = ['Axe', 'Dagger', 'Mace', 'Pistol', 'Focus', 'Scepter', 'Shield', 'Sword', 'Torch', 'Greatsword', 'Hammer', 'Longbow', 'Rifel', 'Shortbow', 'Spear', 'Staff', 'Trident', 'Warhorn'];
 
 function Traitline(id, name, klasse, icon, background) {
   this.id = id;
@@ -41,6 +44,17 @@ function Traitline(id, name, klasse, icon, background) {
   };
 }
 
+function Weapon(typ, klasse){
+  this.typ = typ;
+  this.klasse = klasse;
+
+  this.skills = [];
+
+  this.addSkill = function addSkill(skill) {
+    this.skills.push(skill);
+  };
+}
+
 function createRequestString(array) {
   let requestString = array[0];
   for (let i = 1; i < array.length; i += 1) {
@@ -66,6 +80,8 @@ Meteor.methods({
 
     try {
       TraitlineList.remove({});
+      SkillsList.remove({});
+      ClassWeaponCollection.remove({});
       const professionsNames = HTTP.call('GET', `${Gw2API}professions`).data;
       let requestString = createRequestString(professionsNames);
 
@@ -100,9 +116,28 @@ Meteor.methods({
         for (let i = 1; i < professions[p].skills.length; i += 1) {
           requestString += `,${professions[p].skills[i].id}`;
         }
-
-        const skillArray = HTTP.call('GET', `${Gw2API}skills`, { params: { ids: requestString, lang: 'de' } });
+        //console.log(requestString);
+        let skillArray = HTTP.call('GET', `${Gw2API}skills`, { params: { ids: requestString, lang: 'de' } }).data;
         for (let s = 0; s < skillArray.length; s += 1) {
+          //console.log(skillArray[s]);
+          SkillsList.insert(skillArray[s]);
+        }
+        // Weapon saving
+        requestString = '';
+        for (let w = 0; w < WeaponNameArray.length; w += 1) {
+          if (typeof professions[p].weapons[WeaponNameArray[w]] !== 'undefined') {
+            const weapon = new Weapon(WeaponNameArray[w], professionsNames[p]);
+            for (let s = 0; s < professions[p].weapons[WeaponNameArray[w]].skills.length; s += 1) {
+              weapon.addSkill(professions[p].weapons[WeaponNameArray[w]].skills[s].id);
+              requestString += `${professions[p].weapons[WeaponNameArray[w]].skills[s].id},`;
+            }
+            // console.log(weapon);
+            ClassWeaponCollection.insert(weapon);
+          }
+        }
+        skillArray = HTTP.call('GET', `${Gw2API}skills`, { params: { ids: requestString, lang: 'de' } }).data;
+        for (let s = 0; s < skillArray.length; s += 1) {
+          // console.log(skillArray[s]);
           SkillsList.insert(skillArray[s]);
         }
       }
@@ -114,7 +149,7 @@ Meteor.methods({
   updateGW2API() {
     // TODO Complete Rebuild for better acessing the endpoints and build up to databases (de/en)
     // TODO Add weapon DB for each class
-    // TODO Change the way the api is requested use ?params istead of /_ip
+    // DONE Change the way the api is requested use ?params istead of /_ip see "updateGW2API"
     // because so requests can be bundeld in to one
     /* Function to Update the Database that represent the Gw2 API for esay acess*/
     const time = new Date();

@@ -17,7 +17,7 @@ if (Meteor.isClient) {
 
     waitOn() {
       // Secure that all Database subscribed and ready for data
-      return Meteor.subscribe('buildcollection') && Meteor.subscribe('traitlinelist') && Meteor.subscribe('buildlist') && Meteor.subscribe('skillslist');
+      return Meteor.subscribe('buildcollection') && Meteor.subscribe('traitlinelist') && Meteor.subscribe('buildlist') && Meteor.subscribe('skillslist') && Meteor.subscribe('classweaponcollection');
     },
 
     action() {
@@ -33,7 +33,7 @@ if (Meteor.isClient) {
 
     waitOn() {
       // Secure that all Database subscribed and ready for data
-      return Meteor.subscribe('buildcollection') && Meteor.subscribe('traitlinelist') && Meteor.subscribe('buildlist') && Meteor.subscribe('skillslist');
+      return Meteor.subscribe('buildcollection') && Meteor.subscribe('traitlinelist') && Meteor.subscribe('buildlist') && Meteor.subscribe('skillslist') && Meteor.subscribe('classweaponcollection');
     },
 
     action() {

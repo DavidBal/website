@@ -13,6 +13,8 @@ export class Dropdown {
   object;
   style;
   positionX;
+  positionY;
+  multiplier;
 
   // DONE Rework this style thing
   constructor(position, object) {
@@ -21,9 +23,12 @@ export class Dropdown {
     };
     this.object = object;
     this.positionX = position.clientX;
+    this.positionY = position.clientY;
+    this.multiplier = 1;
   }
 
   renderDefault() {
+    console.log(this);
     const html = `<div class='dropdown_header'> ${this.object.name} </div><div class='description'> ${this.object.description} <br/> DEFAULT RENDER </div>`;
     return html;
   }
@@ -84,7 +89,7 @@ export class Dropdown {
         break;
       case 'Damage':
         // TODO deeper Work needed
-        factInfo = `${factObject.hit_count} Ziele`;
+        factInfo = `${factObject.hit_count} Impacts`;
         break;
       case 'Distance':
         factInfo = `${factObject.text}: ${factObject.distance}`;
@@ -165,8 +170,30 @@ export class Dropdown {
     return `${header}${description}${facts}`;
   }
 
+  renderWeaponSkill() {
+    // console.log(this.object);
+    let facts = '<div class="facts">';
+    let header = `<div class="dropdown_header"> ${this.object.name}`;
+    if (typeof this.object.facts !== 'undefined') {
+      for (let f = 0; f < this.object.facts.length; f += 1) {
+        if (this.object.facts[f].type === 'Recharge') {
+          header += `<div class="recharge"><div class="recharge_img backround_img" style="background-image: url('${this.object.facts[f].icon}')"></div><div class="">${this.object.facts[f].value}s</div></div>`;
+        } else {
+          const factInfo = Dropdown.interpretFact(this.object.facts[f]);
+
+          facts += `<div class="fact"><div class="fact_img backround_img" style="background-image: url('${this.object.facts[f].icon}')"></div><div class="">${factInfo}</div></div>`;
+        }
+      }
+    }
+    header += '</div>';
+    facts += '</div>';
+    const html = `${header}<div class='description'> ${this.object.description} </div>${facts}`;
+    return html;
+  }
+
   render() {
     let html;
+    // console.log('RENDER');
 
     // console.log(this.object);
     // console.log(this.positionX + 200);
@@ -176,6 +203,8 @@ export class Dropdown {
       html = this.renderTrait();
     } else if (this.object.type === 'Heal' || this.object.type === 'Utility' || this.object.type === 'Elite') {
       html = this.renderSkill();
+    } else if (this.object.type === 'Weapon') {
+      html = this.renderWeaponSkill();
     } else {
       // Should not be called
       html = this.renderDefault();
@@ -184,6 +213,16 @@ export class Dropdown {
       $('#dropdown').css('left', -280);
     } else {
       $('#dropdown').css('left', 10);
+    }
+
+    if (typeof this.object.facts !== 'undefined') {
+      this.multiplier = this.object.facts.length;
+    }
+
+    if ((this.positionY + 60 + (30 * this.multiplier)) > $(window).height()) {
+      $('#dropdown').css('top', (-30 * this.multiplier));
+    } else {
+      $('#dropdown').css('top', 10);
     }
     $('#dropdown').html(`<div class="dropdown">${html}</div>`);
     $('#dropdown').css(this.style);
@@ -197,6 +236,11 @@ export class Dropdown {
       $('#dropdown').css('left', -280);
     } else {
       $('#dropdown').css('left', 10);
+    }
+    if ((this.positionY + 60 + (30 * this.multiplier)) > $(window).height()) {
+      $('#dropdown').css('top', -80 + (-30 * this.multiplier));
+    } else {
+      $('#dropdown').css('top', 10);
     }
     $('#dropdown').css(this.style);
   }

@@ -5,11 +5,12 @@ import { Blaze } from 'meteor/blaze';
 import { Meteor } from 'meteor/meteor';
 
 // Database entrys
-import { BuildList, TraitlineList, BuildCollection, SkillsList } from '../api/database';
+import { BuildList, TraitlineList, BuildCollection, SkillsList, ClassWeaponCollection } from '../api/database';
 
 import './body.html';
 import './traitline.html';
 import './skills.html';
+import './weapon.html';
 import { Dropdown } from './dropdown';
 
 import './routing';
@@ -37,6 +38,12 @@ if (Meteor.isClient) {
 
   const createSkillbar = function createSkillbar(skills) {
     Blaze.renderWithData(Template.skillbarUi, skills, $('#skillZone').get(0));
+  };
+
+  const createWeaponSkillbar = function createWeaponSkillbar(weapon) {
+    const weaponSkillArray = ClassWeaponCollection.findOne({ typ: weapon, klasse: Build.profession }).skills;
+    console.log(weaponSkillArray);
+    Blaze.renderWithData(Template.weaponSkillbarUi, weaponSkillArray, $('#weaponSkillZone').get(0));
   };
 
   export default 0;
@@ -68,15 +75,18 @@ if (Meteor.isClient) {
         // Reset the Zones to be clear and ready for the new render
         $('#traitlineZone').html('<!--Traitline Zone-->');
         $('#skillZone').html('<!--Skill Zone-->');
+        $('#weaponSkillZone').html('<!---->');
+        $('#build_name').html('<!--Build Name-->');
 
         // Change the Browser for Link for fast Sharing of the Build
         history.replaceState(null, null, link);
-
+        $('#build_name').html(`${Build.klasse}`);
         for (let i = 1; i < 4; i += 1) {
           createOneTraitline(Build.specializations[`traitline_${i}`][0]);
         }
 
         createSkillbar(Build.skills);
+        createWeaponSkillbar(Build.weapons[0]);
       } else {
         // No action the build is already up
         // console.log('Load geblockt!');
@@ -137,6 +147,16 @@ if (Meteor.isClient) {
     },
   });
 
+  Template.weaponSkillbarUi.helpers({
+    weaponSkill(position) {
+      console.log(this);
+      const skill = SkillsList.findOne({ id: this[position] });
+      console.log(skill);
+      this.skill = new ReactiveVar(skill);
+      return skill;
+    },
+  });
+
   /**
         Events
   **/
@@ -187,6 +207,22 @@ if (Meteor.isClient) {
       console.log('Click');
       console.log(event);
       // TODO Pop up menue with alternativ skills
+    },
+  });
+
+  Template.weaponSkillUi.events({
+    'mouseenter .skill_icon': function onEnter(event, templateInstance) {
+      if (typeof this.dropdown === 'undefined') {
+        console.log(templateInstance.data);
+        this.dropdown = new ReactiveVar(new Dropdown(event, templateInstance.data));
+      }
+      this.dropdown.get().render();
+    },
+    'mousemove .skill_icon': function onMove(event) {
+      this.dropdown.get().move(event);
+    },
+    'mouseleave .skill_icon': function onLeave() {
+      Dropdown.remove();
     },
   });
 

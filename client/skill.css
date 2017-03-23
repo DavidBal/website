@@ -1,0 +1,53 @@
+/*SKILLS*/
+
+.weaponAndskill_Bar{
+  background-color: rgba(21,23,24,.3);
+  margin: 15px;
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  min-width: 100px;
+  min-height: 80px;
+  padding: 0% 100px 0% 100px;
+}
+
+.skillbar{
+    background-color: rgba(21,23,24,.3);
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    min-width: 100px;
+    min-height: 80px;
+}
+
+.skill_icon{
+    width: 75px;
+    height: 75px;
+    border: 4.5px solid rgba(21,23,24,.7);
+    background-position: 50%;
+    background-size: 140%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.heal_skill{
+
+}
+
+.uitily_skill{
+    margin-right: 7px;
+    margin-left: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.skill_change{
+    background-color: rgba(21,23,24,.7);
+    height: 11px;
+    border: 2px solid rgba(21,23,24,.7);
+}
